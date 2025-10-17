@@ -1,0 +1,47 @@
+import { useState } from 'react';
+import { useAuth } from '../context/AuthContext.jsx';
+
+const Register = () => {
+  const { api, login } = useAuth();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('reporter');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    try {
+      const res = await api.post('/auth/register', { name, email, password, role });
+      login(res.data.token, res.data.user);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Registration failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="section">
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit}>
+        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" required />
+        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" required />
+        <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" required />
+        <select value={role} onChange={(e) => setRole(e.target.value)}>
+          <option value="reporter">Reporter</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Loading...' : 'Register'}
+        </button>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </form>
+    </div>
+  );
+};
+
+export default Register;
