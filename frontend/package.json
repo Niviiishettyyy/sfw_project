@@ -1,12 +1,15 @@
 {
-  "name": "bug-bounty-frontend",
+  "name": "sfw_project",
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "homepage": "https://Niviiishettyyy.github.io/sfw_project",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "axios": "^1.7.3",
@@ -16,6 +19,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
-    "vite": "^5.3.1"
+    "vite": "^5.3.1",
+    "gh-pages": "^5.0.0"
   }
 }
+
